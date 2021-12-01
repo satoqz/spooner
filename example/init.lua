@@ -1,10 +1,17 @@
 hs.loadSpoon("spooner")
 
 spoon.spooner:start {
+  -- app names belinging to windows to fully ignore
   ignore = { "System Preferences" },
+  -- default amount of master windows
   masters = 1,
+  -- default amount of padding around windows
   pad = 8,
+  -- amount to in- or decrease window padding when calling `incPad` or `decPad`
   padStep = 8,
+  -- time in seconds for windows to finish transitioning to a new frame
+  transition = 0.1,
+  -- modifier used for all key binds
   mod = "alt",
   keys = {
     { key = "i", run = "incMasters" },

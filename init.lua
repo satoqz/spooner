@@ -11,6 +11,7 @@ function spooner:start(options)
   self.masters = options.masters or 1
   self.mod = options.mod or "alt"
   self.keys = options.keys or {}
+  self.transition = options.transition or 0.1
 
   local wf = window.filter.new()
   wf:subscribe({
@@ -150,7 +151,7 @@ function spooner:renderSpace(space)
     f.h = s.h - self.pad * 2
     f.x = s.x + s.w / tiles * (i - 1) + self.pad
     f.w = s.w / tiles - self.pad * 2
-    win.win:setFrame(f)
+    win.win:setFrame(f, self.transition)
   end
 
   for i, win in ipairs(space.stack) do
@@ -159,7 +160,7 @@ function spooner:renderSpace(space)
     f.w = s.w / tiles - self.pad * 2
     f.y = (i - 1) * s.h / #(space.stack) + self.pad
     f.h = s.h / #(space.stack) - self.pad * 2
-    win.win:setFrame(f)
+    win.win:setFrame(f, self.transition)
   end
 end
 
