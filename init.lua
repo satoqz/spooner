@@ -136,30 +136,37 @@ end
 
 function spooner:renderSpace(space)
   local tiles = #(space.masters)
-
   if tiles == 0 then
     return
   end
   if #(space.stack) > 0 then
     tiles = tiles + 1
   end
+
   local s = space.masters[1].win:screen():frame()
+
+  -- act as if the screen was smaller to create padding around the screen edges
+  local halfpad = self.pad / 2
+  s.w = s.w - self.pad
+  s.h = s.h - self.pad
+  s.x = s.x + halfpad
+  s.y = s.y + halfpad
 
   for i, win in ipairs(space.masters) do
     local f = win.frame
-    f.y = self.pad
-    f.h = s.h - self.pad * 2
-    f.x = s.x + s.w / tiles * (i - 1) + self.pad
-    f.w = s.w / tiles - self.pad * 2
+    f.y = s.y + halfpad
+    f.h = s.h - self.pad
+    f.x = s.x + s.w / tiles * (i - 1) + halfpad
+    f.w = s.w / tiles - self.pad
     win.win:setFrame(f, self.transition)
   end
 
   for i, win in ipairs(space.stack) do
     local f = win.frame
-    f.x = s.x + s.w / tiles * (tiles - 1) + self.pad
-    f.w = s.w / tiles - self.pad * 2
-    f.y = (i - 1) * s.h / #(space.stack) + self.pad
-    f.h = s.h / #(space.stack) - self.pad * 2
+    f.x = s.x + s.w / tiles * (tiles - 1) + halfpad
+    f.w = s.w / tiles - self.pad
+    f.y = s.y + (i - 1) * s.h / #(space.stack) + halfpad
+    f.h = s.h / #(space.stack) - self.pad
     win.win:setFrame(f, self.transition)
   end
 end
